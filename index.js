@@ -11,7 +11,25 @@ const url = 'https://www.theguardian.com/uk'
 axios(url)
     .then(response => {
         const html = response.data
-        console.log(html)
-    })
+        //console.log(html)
+
+        const $ = cheerio.load(html) // whenever $ is used we are accessing html, like jquery
+
+        const articles = []
+
+        $('.fc-item__title', html).each(function() { //get each of the items class fc-item__titele
+           const title = $(this).text()
+           const suburl = $(this).find('a').attr('href')
+           articles.push({                             //push the findins to artitlces array
+                title,
+                suburl
+           })
+
+
+
+        }
+        )
+        console.log(articles)
+    }).catch(err => console.log(err))
 
 app.listen(PORT, () =>  console.log(`server runnin on PORT ${PORT}`) )
